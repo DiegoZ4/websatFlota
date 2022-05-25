@@ -1,0 +1,7 @@
+{
+    "/api/*":{
+        "target": "http://api.service24gps.com",
+        "secure": false,
+        "logLevel" :"debug"
+    }
+}
