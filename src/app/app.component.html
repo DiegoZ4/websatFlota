@@ -5,6 +5,15 @@
       <h3>Seleccione un vehículo de la flota</h3>
     </div>
     <div class="col-12 mb-4">
+
+      <p>
+        <select class="form-select" name="miselect" [(ngModel)]="seleccionado" (change)="onChange()">
+          <option [ngValue]="null" disabled>Choose your profile</option>
+          <option [ngValue]="objeto" *ngFor="let objeto of vehicles">{{objeto.nombre}}</option>
+        </select>
+      </p>
+      
+
       <button class="btn btn-primary" style="margin-right: 5px; margin-bottom: 5px;" *ngFor="let v of vehicles"
               (click)="loadData(v.idgps, v.nombre)">{{ v.nombre }}</button>
     </div>
@@ -18,25 +27,25 @@
 
   <div class="row mt-4">
 
-    <div class="col-12 text-center"  *ngIf="barChartData.datasets.length <= 1">
+    <div class="col-12 text-center"  *ngIf="!canShow">
       <div class="spinner-border text-primary" role="status"></div>
       <div>Cargando información...</div>
     </div>
 
     <div class="col-6-sm">
 
-      <div *ngIf="barChartData.datasets.length > 1">
+      <div *ngIf="canShow">
       
         <!-- <pre>data: {{ barChartData.datasets[0].data[0] | json }}</pre> -->
       
       
-        <table class="table table-striped">
+        <table class="table table-striped"  *ngIf="barChartData.datasets.length >= 2">
           <thead>
             <tr>
               <th scope="col">#</th>
               <th scope="col">Control</th>
-              <th scope="col">Marzo</th>
-              <th scope="col">Abril</th>
+              <th scope="col">{{this.monthNames[ this.lastMonthIdx ]}}</th>
+              <th scope="col">{{this.monthNames[ this.currentMonthIdx ]}}</th>
               <th scope="col">Variacion mes anterior</th>
             </tr>
           </thead>
@@ -49,70 +58,70 @@
               <td>Activacion EBS Media lado acompañante</td>
               <td>{{barChartData.datasets[0].data[0]}}</td>
               <td>{{barChartData.datasets[1].data[0]}}</td>
-              <td>{{ calcVariacion( barChartData.datasets[0].data[0], barChartData.datasets[1].data[0]) }}</td>
+              <td>{{ calcVariacion( barChartData.datasets[0].data[0], barChartData.datasets[1].data[0]) }}%</td>
             </tr>
             <tr>
               <th scope="row">2</th>
               <td>Activacion EBS Media lado conductor</td>
               <td>{{barChartData.datasets[0].data[1]}}</td>
               <td>{{barChartData.datasets[1].data[1]}}</td>
-              <td>{{ calcVariacion( barChartData.datasets[0].data[1], barChartData.datasets[1].data[1]) }}</td>
+              <td>{{ calcVariacion( barChartData.datasets[0].data[1], barChartData.datasets[1].data[1]) }}%</td>
             </tr>
             <tr>
               <th scope="row">3</th>
               <td>Activacion EBS Pronunciada lado acompañante</td>
               <td>{{barChartData.datasets[0].data[2]}}</td>
               <td>{{barChartData.datasets[1].data[2]}}</td>
-              <td>{{ calcVariacion( barChartData.datasets[0].data[2], barChartData.datasets[1].data[2]) }}</td>
+              <td>{{ calcVariacion( barChartData.datasets[0].data[2], barChartData.datasets[1].data[2]) }}%</td>
             </tr>
             <tr>
               <th scope="row">4</th>
               <td>Activacion EBS Pronunciado lado conductor</td>
               <td>{{barChartData.datasets[0].data[3]}}</td>
               <td>{{barChartData.datasets[1].data[3]}}</td>
-              <td>{{ calcVariacion( barChartData.datasets[0].data[3], barChartData.datasets[1].data[3]) }}</td>
+              <td>{{ calcVariacion( barChartData.datasets[0].data[3], barChartData.datasets[1].data[3]) }}%</td>
             </tr>
             <tr>
               <th scope="row">5</th>
               <td>Activacion EBS Riesgosa lado acompañante</td>
               <td>{{barChartData.datasets[0].data[4]}}</td>
               <td>{{barChartData.datasets[1].data[4]}}</td>
-              <td>{{ calcVariacion( barChartData.datasets[0].data[4], barChartData.datasets[1].data[4]) }}</td>
+              <td>{{ calcVariacion( barChartData.datasets[0].data[4], barChartData.datasets[1].data[4]) }}%</td>
             </tr>
             <tr>
               <th scope="row">6</th>
               <td>Activacion EBS Riesgosa lado conductor</td>
               <td>{{barChartData.datasets[0].data[5]}}</td>
               <td>{{barChartData.datasets[1].data[5]}}</td>
-              <td>{{ calcVariacion( barChartData.datasets[0].data[5], barChartData.datasets[1].data[5]) }}</td>
+              <td>{{ calcVariacion( barChartData.datasets[0].data[5], barChartData.datasets[1].data[5]) }}%</td>
             </tr>
             <tr>
               <th scope="row">7</th>
               <td>Activacion EBS Critica lado acompañante</td>
               <td>{{barChartData.datasets[0].data[6]}}</td>
               <td>{{barChartData.datasets[1].data[6]}}</td>
-              <td>{{ calcVariacion( barChartData.datasets[0].data[6], barChartData.datasets[1].data[6]) }}</td>
+              <td>{{ calcVariacion( barChartData.datasets[0].data[6], barChartData.datasets[1].data[6]) }}%</td>
             </tr>
             <tr>
               <th scope="row">8</th>
               <td>Activacion EBS Critica lado conductor</td>
               <td>{{barChartData.datasets[0].data[7]}}</td>
               <td>{{barChartData.datasets[1].data[7]}}</td>
-              <td>{{ calcVariacion( barChartData.datasets[0].data[7], barChartData.datasets[1].data[7]) }}</td>
+              <td>{{ calcVariacion( barChartData.datasets[0].data[7], barChartData.datasets[1].data[7]) }}%</td>
             </tr>
             <tr>
               <th scope="row">9</th>
               <td>Fallo rueda derecha</td>
               <td>{{barChartData.datasets[0].data[8]}}</td>
               <td>{{barChartData.datasets[1].data[8]}}</td>
-              <td>{{ calcVariacion( barChartData.datasets[0].data[8], barChartData.datasets[1].data[8]) }}</td>
+              <td>{{ calcVariacion( barChartData.datasets[0].data[8], barChartData.datasets[1].data[8]) }}%</td>
             </tr>
             <tr>
               <th scope="row">10</th>
               <td>Fallo rueda izquierda</td>
               <td>{{barChartData.datasets[0].data[9]}}</td>
               <td>{{barChartData.datasets[1].data[9]}}</td>
-              <td>{{ calcVariacion( barChartData.datasets[0].data[9], barChartData.datasets[1].data[9]) }}</td>
+              <td>{{ calcVariacion( barChartData.datasets[0].data[9], barChartData.datasets[1].data[9]) }}%</td>
             </tr>
           </tbody>
         </table>
@@ -120,7 +129,7 @@
     </div>
     
     <div class="col-6-sm">
-      <div style="display: block" *ngIf="barChartData.datasets.length > 1">
+      <div style="display: block" *ngIf="canShow">
         <canvas baseChart
           [data]="barChartData"
           [options]="barChartOptions"
