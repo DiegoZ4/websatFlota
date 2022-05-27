@@ -29,7 +29,7 @@ export class AppComponent {
 
 
   vehicles:any[] = [];
-  vehicleSelected = 'hola';
+  vehicleSelected = '';
 
   lista = [
     {
@@ -49,7 +49,7 @@ export class AppComponent {
     }
   ];
 
-  seleccionado: any;
+  seleccionado: any = null;
 
   currentMonthIdx: number = 0;
   lastMonthIdx: number = 0;
@@ -60,6 +60,7 @@ export class AppComponent {
   ];
 
   canShow = false;
+  startSearcher = false;
 
   public barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
@@ -149,9 +150,9 @@ export class AppComponent {
         gpsApi.getAssetsLastReport().then( (res2: any) => {
           console.log( 'asds',res2 );
           
-          this.seleccionado = this.vehicles.find(x=> x.idgps === res2.data[1].GpsIdentif)
+          // this.seleccionado = this.vehicles.find(x=> x.idgps === res2.data[1].GpsIdentif)
   
-          this.loadData( res2.data[1].GpsIdentif, res2.data[1].UnitId );
+          // this.loadData( res2.data[1].GpsIdentif, res2.data[1].UnitId );
   
         });
 
@@ -173,6 +174,7 @@ export class AppComponent {
 
   onChange() {
     console.log(this.seleccionado);
+    this.startSearcher = true;
     this.loadData(this.seleccionado.idgps, this.seleccionado.nombre)
   }
 

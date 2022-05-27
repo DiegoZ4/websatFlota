@@ -11,24 +11,24 @@
 
       <p>
         <select class="form-select" name="miselect" [(ngModel)]="seleccionado" (change)="onChange()">
-          <option [ngValue]="null" disabled>Choose your profile</option>
+          <option [ngValue]="null" disabled>Elegir un vehículo aquí</option>
           <option [ngValue]="objeto" *ngFor="let objeto of vehicles">{{objeto.nombre}}</option>
         </select>
       </p>
       
 
-      <button class="btn btn-primary" style="margin-right: 5px; margin-bottom: 5px;" *ngFor="let v of vehicles"
-              (click)="loadData(v.idgps, v.nombre)">{{ v.nombre }}</button>
+      <!-- <button class="btn btn-primary" style="margin-right: 5px; margin-bottom: 5px;" *ngFor="let v of vehicles"
+              (click)="loadData(v.idgps, v.nombre)">{{ v.nombre }}</button> -->
     </div>
 
-    <hr>
+    <hr *ngIf="startSearcher">
 
-    <div class="col-12">
+    <div class="col-12"  *ngIf="startSearcher">
       Vehículo seleccionado: {{ vehicleSelected }}. Mostrando resultados:
     </div>
   </div>
 
-  <div class="row mt-4">
+  <div class="row mt-4" *ngIf="startSearcher">
 
     <div class="col-12 text-center"  *ngIf="!canShow">
       <div class="spinner-border text-primary" role="status"></div>
